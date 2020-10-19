@@ -1,16 +1,19 @@
 package com.sgu.todo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 @Entity
 @Table(name = "edit_history")
-public class EditHistory {
+public class EditHistory implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "edit_history_id")
     private Integer editHistoryId;
-    @Column(name = "flg_detele")
+    @Column(name = "flg_detele",length = 1)
     private String flgDelete;
+    @Column(name = "status",length = 1)
+    private String status;
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
@@ -49,8 +52,8 @@ public class EditHistory {
     public void setUser(User user) {
         this.user = user;
     }
-    @ManyToOne()
-    @JoinColumn(name = "task_id")
+    @ManyToOne(fetch= FetchType.EAGER)
+    @JoinColumn(name = "task_id",referencedColumnName = "task_id",insertable = true, updatable = true)
     private Task task;
 
     public Task getTask() {
@@ -59,5 +62,13 @@ public class EditHistory {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

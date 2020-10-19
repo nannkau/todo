@@ -26,7 +26,7 @@ public class RoleController {
 
     @RequestMapping(value = "/role/index.html")
     public String index(Model model){
-        model.addAttribute("roles",roleService.findByFlagDelete("0"));
+        model.addAttribute("roles",roleService.findAll());
         return "role/index";
     }
 

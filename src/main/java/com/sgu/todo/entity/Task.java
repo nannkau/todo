@@ -1,18 +1,29 @@
 package com.sgu.todo.entity;
 
+import com.sun.istack.NotNull;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "task")
-public class Task {
+public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
-    private int taskId;
+    private Integer taskId;
     @Column(name = "title",length = 250)
+    @NotEmpty(message = "Enter title")
     private String title;
+    @Column(name = "content",length = 16777215)
+    private String content;
     @Column(name = "start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
@@ -20,23 +31,27 @@ public class Task {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishDate;
     @Column(name = "privacy",length = 1)
+    @NotEmpty(message = "Enter privacy")
     private String privacy;
     @Column(name = "status",length = 1)
+    @NotEmpty(message = "Enter status")
     private String status;
     @Column(name = "flg_delete",length = 1)
     private String flgDelete;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
     private List<File> files;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
     private List<EditHistory> editHistories;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
     private List<Comment> comments;
-
-    public int getTaskId() {
+    public Integer getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
+    public void setTaskId(Integer taskId) {
         this.taskId = taskId;
     }
 
@@ -48,6 +63,14 @@ public class Task {
         this.title = title;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -56,8 +79,8 @@ public class Task {
         this.startDate = startDate;
     }
 
-    public Date getFinishDate(Date finishDate) {
-        return this.finishDate;
+    public Date getFinishDate() {
+        return finishDate;
     }
 
     public void setFinishDate(Date finishDate) {

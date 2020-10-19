@@ -50,8 +50,7 @@
                                         <td >
                                             <div th:each="role : ${user.roles}"  th:switch="${role.name}">
                                                 <span th:case="'admin'" th:style = "'color: white;background-color:green;' " >admin</span>
-                                                <span th:case="'staff'" th:style = "'color: white;background-color: CornflowerBlue;' ">staff</span>
-                                                <span th:case="'seller'" th:style = "'color: white;background-color: lightblue;' ">seller</span>
+                                                <span th:case="'employee'" th:style = "'color: white;background-color: CornflowerBlue;' ">employee</span>
                                             </div>
                                         </td>
                                         <td >

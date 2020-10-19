@@ -1,10 +1,11 @@
 package com.sgu.todo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -48,8 +49,8 @@ public class Comment {
     public void setFlgDelete(String flgDelete) {
         this.flgDelete = flgDelete;
     }
-    @ManyToOne()
-    @JoinColumn(name = "task_id")
+    @ManyToOne(fetch= FetchType.LAZY)
+    @JoinColumn(name = "task_id",referencedColumnName = "task_id",insertable = true, updatable = true)
     private Task task;
 
     public Task getTask() {

@@ -34,6 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/staff/**").hasAnyAuthority("staff","admin")
                 //.antMatchers("/admin/**").hasAnyAuthority("admin")
                 .antMatchers("/**","/register").hasAnyAuthority("employee","admin")
+//                .antMatchers("/**","/register").permitAll()
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/accessdenied")

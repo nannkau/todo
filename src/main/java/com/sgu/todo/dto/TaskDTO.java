@@ -9,22 +9,58 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class TaskDTO {
-    private  MultipartFile[] parts;
+
+    private Integer taskId;
+
     @NotEmpty(message = "Enter title")
     private String title;
-    @NotNull(message = "Enter finish date")
+
+    private String content;
+
+    private Date startDate;
+
     private Date finishDate;
-    @NotEmpty(message = "chose privacy")
+
+    @NotEmpty(message = "Enter privacy")
     private String privacy;
-    @NotEmpty(message = "chose status")
+
+    @NotEmpty(message = "Enter status")
     private String status;
 
-    public MultipartFile[] getParts() {
-        return parts;
+    private String flgDelete;
+
+    private  MultipartFile[] parts;
+
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setParts(MultipartFile[] parts) {
-        this.parts = parts;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public Date getFinishDate() {
@@ -51,11 +87,19 @@ public class TaskDTO {
         this.status = status;
     }
 
-    public String getTitle() {
-        return title;
+    public String getFlgDelete() {
+        return flgDelete;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFlgDelete(String flgDelete) {
+        this.flgDelete = flgDelete;
+    }
+
+    public MultipartFile[] getParts() {
+        return parts;
+    }
+
+    public void setParts(MultipartFile[] parts) {
+        this.parts = parts;
     }
 }
