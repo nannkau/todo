@@ -1,0 +1,62 @@
+package com.sgu.todo.entity;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "comment")
+public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    private Integer commentId;
+    @Column(name = "content")
+    private String content;
+    @Column(name = "flg_delete",length = 1)
+    private String flgDelete;
+    @OneToOne()
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private User user;
+
+    public Integer getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getFlgDelete() {
+        return flgDelete;
+    }
+
+    public void setFlgDelete(String flgDelete) {
+        this.flgDelete = flgDelete;
+    }
+    @ManyToOne()
+    @JoinColumn(name = "task_id")
+    private Task task;
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+}
