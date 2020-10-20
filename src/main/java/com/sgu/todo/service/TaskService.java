@@ -12,7 +12,7 @@ import java.util.List;
 public interface TaskService {
     public List<Task> findAll();
     public void create(TaskDTO taskDTO, HttpServletRequest request, Authentication authentication);
-    public void deleteById(Integer id);
+    public Task deleteById(Integer id);
     public void addComment(Comment comment);
     public Task findById(Integer id);
     public List<Task> findByFlgDelete(String flgDelete);

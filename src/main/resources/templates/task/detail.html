@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="/flagments/header::header">
+        <title>Detail task</title>
+    </th:block>
+</head>
+<body class="materialdesign">
+<th:block th:replace="/flagments/sidebar::sidebar"></th:block>
+<div class="user-prfile-activity-area mg-b-40 mg-t-30"  >
+    <div class="jumbotron">
+        <div class="d-table w-100 h-100">
+            <div class="d-table-cell w-100 h-100 align-middle">
+                <div class="sparkline12-list shadow-reset mg-t-30">
+                    <div class="col-lg-6">
+                        <div class="post-user-profile-awrap shadow-reset">
+                            <div class="user-profile-post">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <div class="user-profile-post-name">
+                                            <h2 th:text="${task.users.get(0).getFullName()}">name</h2>
+                                            <p><span th:text="${#dates.format(task.startDate, 'dd/MM/yyyy HH:mm')}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                                        <div class="admin-comment-month user-profile-post-action">
+                                            <button class="comment-setting" data-toggle="collapse" data-target="#adminpro-demo1">...</button>
+                                            <ul id="adminpro-demo1" class="comment-action-st collapse">
+                                                <li><a href="#">Add</a>
+                                                </li>
+                                                <li><a href="#">Report</a>
+                                                </li>
+                                                <li><a href="#">Hide Profile</a>
+                                                </li>
+                                                <li><a href="#">Turn on Profile</a>
+                                                </li>
+                                                <li><a href="#">Turn off Profile</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="profile-user-post-content">
+                                            <div th:utext="${task.content}"></div>
+                                            <div class="user-post-reply">
+                                                <div class="btn-group" th:if="${task.files !=null}">
+                                                    <th:block th:each="file:${task.files}">
+                                                        <button class="btn btn-white btn-xs"><i class="material-icons">file_download</i> <p th:text="${file.path}"></p> </button>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="user-profile-comment-list">
+                               <th:block th:if="${task.comments !=null}">
+                                   <th:block th:each="comment:${task.comments}">
+                                       <div class="row">
+                                           <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                               <div class="user-profile-comment-content">
+                                                   <p th:text="${comment.user.fullName}"></p>
+                                                   <p th:text="${comment.content}"></p>
+                                                   <div class="row">
+                                                       <div class="col-lg-7">
+                                                           <div class="comment-date-profile">
+                                                               <p><span th:text="${#dates.format(comment.createDate, 'dd/MM/yyyy HH:mm')}"></span>
+                                                               </p>
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </th:block>
+                               </th:block>
+                                <form action="#" th:action="@{/comment/add.html}" th:object="${comment}" method="post">
+                                    <div class="row profile-comment-mg">
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                                            <div class="user-profile-comment-input">
+                                                <textarea name="text" cols="30" rows="10" placeholder="Write Comment.."  th:field="*{content}"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" th:field="*{task}" id="task" th:value="${task}">
+                                    <div class="row">
+                                        <button class="btn btn-white btn-xs" type="submit"><i class="fa fa-comments"></i> Comment</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="/flagments/footer::footer"></th:block>
+</body>
+</html>

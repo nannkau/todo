@@ -10,6 +10,8 @@ public class File implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
     private Integer fileId;
+    @Column(name = "name")
+    private  String name;
     @Column(name = "path")
     private String path;
     @Column(name = "flg_delete",length = 1)
@@ -38,7 +40,7 @@ public class File implements Serializable {
     public void setFlgDelete(String flgDelete) {
         this.flgDelete = flgDelete;
     }
-    @ManyToOne(fetch= FetchType.EAGER)
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "task_id",referencedColumnName = "task_id",insertable = true, updatable = true)
     private Task task;
 
@@ -48,5 +50,13 @@ public class File implements Serializable {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

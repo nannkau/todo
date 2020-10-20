@@ -3,7 +3,7 @@
 >
 <head>
     <th:block th:replace="/flagments/header::header">
-        <title>Add Role</title>
+        <title>Edit List Task</title>
     </th:block>
 </head>
 <body class="materialdesign">
@@ -16,7 +16,7 @@
                 <div class="sparkline12-list shadow-reset mg-t-30">
                     <div class="sparkline12-hd">
                         <div class="main-sparkline12-hd">
-                            <h1>Add Role</h1>
+                            <h1>Add List Task</h1>
                             <div class="sparkline12-outline-icon">
                                 <span class="sparkline12-collapse-link"><i class="fa fa-chevron-up"></i></span>
                                 <span><i class="fa fa-wrench"></i></span>
@@ -29,7 +29,8 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="all-form-element-inner">
-                                        <form action="#" th:action="@{/role/add.html}" th:object="${role}" method="post">
+                                        <form action="#" th:action="@{/task-list/add.html}" th:object="${taskList}" method="post">
+                                            <input type="hidden" th:field="*{taskListId}" id="taskListId">
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
@@ -39,38 +40,6 @@
                                                         <div class="input-mark-inner mg-b-22">
                                                             <input type="text" id="name" th:field="*{name}" class="form-control" name="name" />
                                                             <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="badge badge-danger left"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Detail</label>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <input type="text" id="detail" th:field="*{detail}" class="form-control" name="name" />
-                                                            <span th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" class="badge badge-danger left"></span>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Active</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-select-list">
-                                                                <select class="form-control custom-select-value" name="account" th:field="*{flgDelete}">
-                                                                    <option value="0">Active</option>
-                                                                    <option value="1">Not Active</option>
-                                                                </select>
-                                                                <span th:if="${#fields.hasErrors('flgDelete')}" th:errors="*{flgDelete}" class="badge badge-danger left"></span>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

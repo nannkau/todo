@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="/flagments/header::header">
-        <title>Category</title>
+        <title>List Task</title>
     </th:block>
 </head>
 <body class="materialdesign">
@@ -18,7 +18,7 @@
                             <div class="main-sparkline13-hd">
                                 <h1>Role<span class="table-project-n"></span> Table</h1>
                                 <div class="sparkline13-outline-icon">
-                                    <a th:href="@{/role/add.html}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
+                                    <a th:href="@{/task-list/add.html}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
                                 </div>
                             </div>
                         </div>
@@ -37,26 +37,21 @@
                                         <th data-checkbox="true"></th>
                                         <th data-field="id">ID</th>
                                         <th data-field="name" >Name</th>
-                                        <th data-field="detail" >detail</th>
-                                        <th data-field="active" >Active</th>
-                                        <th >Action</th>
+                                        <th data-field="detail" >Create Date</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody >
-                                    <tr th:each=" role :${roles}">
+                                    <tr th:each=" task :${taskLists}">
                                         <td></td>
-                                        <td th:text="${role.id}">id</td>
-                                        <td th:text="${role.name}">name</td>
-                                        <td th:text="${role.detail}">detail</td>
-                                        <td >
-                                        <p  th:style = "${role.getFlgDelete()=='0'} ? 'color: blue' : 'color: red' " th:text="${role.getFlgDelete()=='0'? 'active':'not active'}">
-                                                active
-                                        </p>
-                                        </td>
+                                        <td th:text="${task.taskListId}">id</td>
+                                        <td th:text="${task.name}">name</td>
+                                        <td th:text="${#dates.format(task.createDate, 'dd/MM/yyyy HH:mm')}">name</td>
                                         <td>
                                             <div class="btn-group project-list-action">
-                                                <a th:href="@{'/role/edit/' + ${role.id}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <a th:href="@{'/role/delete/' + ${role.id}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
+                                                <a th:href="@{'/task-list/detail/' + ${task.taskListId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Detail and add task</button></a>
+                                                <a th:href="@{'/task-list/edit/' + ${task.taskListId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a th:href="@{'/task-list/delete/' + ${task.taskListId}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
                                             </div>
                                         </td>
 

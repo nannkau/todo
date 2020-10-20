@@ -3,6 +3,7 @@ package com.sgu.todo.entity;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.ManyToAny;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -47,6 +48,21 @@ public class Task implements Serializable {
     @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id")
     private List<Comment> comments;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "task_user",joinColumns = @JoinColumn(name = "task_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
+    @ManyToOne
+    @JoinColumn(name = "task_list_id",referencedColumnName = "task_list_id")
+    private TaskList taskList;
+
+    public TaskList getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
+    }
+
     public Integer getTaskId() {
         return taskId;
     }
@@ -133,5 +149,13 @@ public class Task implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

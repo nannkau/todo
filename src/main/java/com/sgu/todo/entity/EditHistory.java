@@ -52,7 +52,7 @@ public class EditHistory implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
-    @ManyToOne(fetch= FetchType.EAGER)
+    @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "task_id",referencedColumnName = "task_id",insertable = true, updatable = true)
     private Task task;
 

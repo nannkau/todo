@@ -3,7 +3,7 @@
 >
 <head>
     <th:block th:replace="/flagments/header::header">
-        <title>Add Task</title>
+        <title>Edit Task</title>
     </th:block>
 </head>
 <body class="materialdesign">
@@ -149,7 +149,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input type="hidden" th:field="*{taskList}" id="blogId">
+                                            <input type="hidden" th:field="*{taskList}" id="taskList">
+                                            <input type="hidden" th:field="*{taskId}" id="taskId">
                                             <div class="form-group-inner">
                                                 <div class="login-btn-inner">
                                                     <div class="row">

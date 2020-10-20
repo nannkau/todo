@@ -1,5 +1,7 @@
 package com.sgu.todo.dto;
 
+import com.sgu.todo.entity.TaskList;
+import com.sgu.todo.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -7,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 public class TaskDTO {
 
@@ -28,6 +31,24 @@ public class TaskDTO {
     private String status;
 
     private String flgDelete;
+    private List<User> users;
+    private TaskList taskList;
+
+    public TaskList getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(TaskList taskList) {
+        this.taskList = taskList;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     private  MultipartFile[] parts;
 

@@ -51,4 +51,9 @@ public class UserServiceImpl implements UserService {
     public User findById(int id) {
         return userRepository.findById(id);
     }
+
+    @Override
+    public List<User> findDifferentEmail(String email) {
+        return userRepository.findDifferentEmail(email);
+    }
 }

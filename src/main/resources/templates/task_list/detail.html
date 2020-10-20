@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="/flagments/header::header">
-        <title>Category</title>
+        <title>Detail List Task</title>
     </th:block>
 </head>
 <body class="materialdesign">
@@ -18,7 +18,7 @@
                             <div class="main-sparkline13-hd">
                                 <h1>Role<span class="table-project-n"></span> Table</h1>
                                 <div class="sparkline13-outline-icon">
-                                    <a th:href="@{/role/add.html}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
+                                    <a th:href="@{'/task/add/' + ${taskList.taskListId}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
                                 </div>
                             </div>
                         </div>
@@ -37,29 +37,41 @@
                                         <th data-checkbox="true"></th>
                                         <th data-field="id">ID</th>
                                         <th data-field="name" >Name</th>
-                                        <th data-field="detail" >detail</th>
-                                        <th data-field="active" >Active</th>
-                                        <th >Action</th>
+                                        <th data-field="startDate" >Start Date</th>
+                                        <th data-field="finishDate" >Finish Date</th>
+                                        <th data-field="Privacy" >Privacy</th>
+                                        <th data-field="Status" >Status</th>
+                                        <th data-field="Delay" >Delay</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody >
-                                    <tr th:each=" role :${roles}">
+                                    <tr th:each=" task :${taskList.tasks}">
                                         <td></td>
-                                        <td th:text="${role.id}">id</td>
-                                        <td th:text="${role.name}">name</td>
-                                        <td th:text="${role.detail}">detail</td>
+                                        <td th:text="${task.taskId}">id</td>
+                                        <td th:text="${task.title}">name</td>
+                                        <td th:text="${#dates.format(task.startDate, 'dd/MM/yyyy HH:mm')}">startDate</td>
+                                        <td th:text="${#dates.format(task.finishDate, 'dd/MM/yyyy HH:mm')}">finishDate</td>
                                         <td >
-                                        <p  th:style = "${role.getFlgDelete()=='0'} ? 'color: blue' : 'color: red' " th:text="${role.getFlgDelete()=='0'? 'active':'not active'}">
-                                                active
-                                        </p>
+                                            <p  th:style = "${task.getPrivacy()=='0'} ? 'color: blue' : 'color: red' " th:text="${task.getPrivacy()=='0'? 'Private':'Public'}">
+                                                    private
+                                            </p>
+                                        </td>
+                                        <td >
+                                            <p  th:style = "${task.getStatus()=='0'} ? 'color: blue' : 'color: red' " th:text="${task.getStatus()=='0'? 'Working':'Finish'}">
+                                                    Finish
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p  th:if="${task.finishDate.before(date)}"> <span class="glyphicon glyphicon-warning-sign"></span></p>
                                         </td>
                                         <td>
                                             <div class="btn-group project-list-action">
-                                                <a th:href="@{'/role/edit/' + ${role.id}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <a th:href="@{'/role/delete/' + ${role.id}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
+                                                <a th:href="@{'/task/detail/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Detail</button></a>
+                                                <a th:href="@{'/task/edit/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a th:href="@{'/task/delete/' + ${task.taskId}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
                                             </div>
                                         </td>
-
                                     </tr>
                                     </tbody>
                                 </table>
@@ -72,5 +84,11 @@
     </div>
 </div>
 <th:block th:replace="/flagments/footer::footer"></th:block>
+<script>
+    $( document ).ready(function() {
+        var now = new Date();
+
+    });
+</script>
 </body>
 </html>

@@ -32,16 +32,7 @@
                                         <form action="#" th:action="@{/role/add.html}" th:object="${role}" method="post">
                                             <div class="form-group-inner">
 
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Role Id</label>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <input type="text" id="categoryId" th:field="*{id}" class="form-control" name="categoryId" readonly="readonly" />
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <input type="hidden" th:field="*{id}" id="roleId">
                                                 <div class="row">
                                                     <div class="col-lg-3">
                                                         <label class="login2 pull-right pull-right-pro">Name</label>
@@ -63,7 +54,6 @@
                                                         <div class="input-mark-inner mg-b-22">
                                                             <input type="text" id="detail" th:field="*{detail}" class="form-control" name="name" />
                                                             <span th:if="${#fields.hasErrors('detail')}" th:errors="*{detail}" class="badge badge-danger left"></span>
-                                                            <span class="help-block">999 99 999 9999 9</span>
                                                         </div>
 
                                                     </div>

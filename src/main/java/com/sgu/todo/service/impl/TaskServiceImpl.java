@@ -45,7 +45,10 @@ public class TaskServiceImpl implements TaskService {
         ModelMapper modelMapper = new ModelMapper();
         Task task = modelMapper.map(taskDTO, Task.class);
         User user=userRepository.findByEmail(authentication.getName());
-
+        List<User> users=new ArrayList<>();
+        if(taskDTO.getUsers()!=null){
+            users=task.getUsers();
+        }
         List<File> files=new ArrayList<>();
         if (task.getFiles()!=null){
             files= task.getFiles();
@@ -84,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
            history.setStatus("0");
            history.setUser(user);
            editHistories.add(history);
+           users.add(user);
        }
        task.setEditHistories(editHistories);
         task.setFlgDelete("0");
@@ -94,10 +98,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public Task deleteById(Integer id) {
         Task task=findById(id);
         task.setFlgDelete("0");
-        taskRepository.save(task);
+        return taskRepository.save(task);
     }
 
     @Override

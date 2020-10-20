@@ -2,6 +2,7 @@ package com.sgu.todo.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -12,6 +13,8 @@ public class Comment implements Serializable {
     private Integer commentId;
     @Column(name = "content")
     private String content;
+    @Column(name = "create_date")
+    private Date createDate;
     @Column(name = "flg_delete",length = 1)
     private String flgDelete;
     @OneToOne()
@@ -32,6 +35,14 @@ public class Comment implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public User getUser() {
