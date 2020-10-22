@@ -1,6 +1,8 @@
 package com.sgu.todo.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -15,8 +17,9 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "role_id", nullable = false)
     private Integer id;
-
     @Column(name = "name", nullable = false)
+    @NotEmpty(message = "Enter name")
+    @Size(max = 50,message = " max size is 50 char")
     private String name;
     @Column(name = "detail", nullable = false)
     private String detail;

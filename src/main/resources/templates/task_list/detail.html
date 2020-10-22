@@ -37,7 +37,6 @@
                                     <thead>
                                     <tr>
                                         <th data-checkbox="true"></th>
-                                        <th data-field="id">ID</th>
                                         <th data-field="name" >Name</th>
                                         <th data-field="startDate" >Start Date</th>
                                         <th data-field="finishDate" >Finish Date</th>
@@ -50,7 +49,6 @@
                                     <tbody >
                                     <tr th:each=" task :${taskList.tasks}">
                                         <td></td>
-                                        <td th:text="${task.taskId}">id</td>
                                         <td th:text="${task.title}">name</td>
                                         <td th:text="${#dates.format(task.startDate, 'dd/MM/yyyy HH:mm')}">startDate</td>
                                         <td th:text="${#dates.format(task.finishDate, 'dd/MM/yyyy HH:mm')}">finishDate</td>

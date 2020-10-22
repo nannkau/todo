@@ -1,6 +1,9 @@
 package com.sgu.todo.entity;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +15,7 @@ public class Comment implements Serializable {
     @Column(name = "comment_id")
     private Integer commentId;
     @Column(name = "content")
+    @NotEmpty(message = "Enter content")
     private String content;
     @Column(name = "create_date")
     private Date createDate;

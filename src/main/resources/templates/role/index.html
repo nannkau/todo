@@ -35,7 +35,6 @@
                                     <thead>
                                     <tr>
                                         <th data-checkbox="true"></th>
-                                        <th data-field="id">ID</th>
                                         <th data-field="name" >Name</th>
                                         <th data-field="detail" >detail</th>
                                         <th data-field="active" >Active</th>
@@ -45,7 +44,6 @@
                                     <tbody >
                                     <tr th:each=" role :${roles}">
                                         <td></td>
-                                        <td th:text="${role.id}">id</td>
                                         <td th:text="${role.name}">name</td>
                                         <td th:text="${role.detail}">detail</td>
                                         <td >

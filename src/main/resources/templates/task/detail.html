@@ -37,7 +37,7 @@
                                                                 <div class="user-post-reply">
                                                                     <div class="btn-group" th:if="${task.files !=null}">
                                                                         <th:block th:each="file:${task.files}">
-                                                                            <button class="btn btn-white btn-xs"><i class="material-icons">file_download</i> <p th:text="${file.name}"></p> </button>
+                                                                        <a th:href="@{'/file/download/' + ${file.fileId}}"><button class="btn btn-white btn-xs"><i class="material-icons">file_download</i> <p th:text="${file.name}"></p> </button></a>
                                                                         </th:block>
                                                                     </div>
                                                                 </div>

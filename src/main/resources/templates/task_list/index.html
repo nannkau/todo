@@ -35,7 +35,6 @@
                                     <thead>
                                     <tr>
                                         <th data-checkbox="true"></th>
-                                        <th data-field="id">ID</th>
                                         <th data-field="name" >Name</th>
                                         <th data-field="detail" >Create Date</th>
                                         <th>Action</th>
@@ -44,7 +43,6 @@
                                     <tbody >
                                     <tr th:each=" task :${taskLists}">
                                         <td></td>
-                                        <td th:text="${task.taskListId}">id</td>
                                         <td th:text="${task.name}">name</td>
                                         <td th:text="${#dates.format(task.createDate, 'dd/MM/yyyy HH:mm')}">name</td>
                                         <td>

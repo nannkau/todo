@@ -5,6 +5,8 @@ import com.sgu.todo.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,11 +19,10 @@ public class TaskDTO {
 
     @NotEmpty(message = "Enter title")
     private String title;
-
     private String content;
 
     private Date startDate;
-
+    @Temporal(TemporalType.TIMESTAMP)
     private Date finishDate;
 
     @NotEmpty(message = "Enter privacy")

@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.ManyToAny;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
@@ -21,7 +22,6 @@ public class Task implements Serializable {
     @Column(name = "task_id")
     private Integer taskId;
     @Column(name = "title",length = 250)
-    @NotEmpty(message = "Enter title")
     private String title;
     @Column(name = "content",length = 16777215)
     private String content;
@@ -32,10 +32,8 @@ public class Task implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date finishDate;
     @Column(name = "privacy",length = 1)
-    @NotEmpty(message = "Enter privacy")
     private String privacy;
     @Column(name = "status",length = 1)
-    @NotEmpty(message = "Enter status")
     private String status;
     @Column(name = "flg_delete",length = 1)
     private String flgDelete;

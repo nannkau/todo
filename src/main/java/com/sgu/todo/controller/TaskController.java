@@ -2,11 +2,14 @@ package com.sgu.todo.controller;
 
 import com.sgu.todo.dto.TaskDTO;
 import com.sgu.todo.entity.*;
+import com.sgu.todo.service.FileService;
 import com.sgu.todo.service.TaskListService;
 import com.sgu.todo.service.TaskService;
 import com.sgu.todo.service.UserService;
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,17 +19,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @Controller
 public class TaskController {
+    @Value("${upload.path}")
+    private String outdir;
+    private final FileService fileService;
     private final TaskService taskService;
     private final TaskListService taskListService;
     private final UserService userService;
     @Autowired
-    public TaskController(TaskService taskService, TaskListService taskListService, UserService userService) {
+    public TaskController(FileService fileService, TaskService taskService, TaskListService taskListService, UserService userService) {
+        this.fileService = fileService;
         this.taskService = taskService;
         this.taskListService = taskListService;
         this.userService = userService;
@@ -97,6 +109,26 @@ public class TaskController {
         List<EditHistory> editHistoryList= taskService.findById(id).getEditHistories();
         model.addAttribute("editHistories",editHistoryList);
         return "task/edithistory";
+    }
+    @RequestMapping(value = "/file/download/{id}")
+    public void downloadFile(@PathVariable("id") Integer id, HttpServletResponse resp) throws IOException {
+        File file= fileService.findById(id);
+
+
+        java.io.File  file1= new java.io.File(outdir+"/"+file.getPath());
+        resp.setContentType(FilenameUtils.getExtension(outdir+"/"+file.getPath()));
+        resp.setHeader("Content-disposition", "attachment; filename=" + file.getName());
+        resp.setContentLength((int) file1.length());
+        BufferedInputStream inStream = new BufferedInputStream(new FileInputStream(file1));
+        BufferedOutputStream outStream = new BufferedOutputStream(resp.getOutputStream());
+        byte[] buffer = new byte[1024];
+        int bytesRead = 0;
+        while ((bytesRead = inStream.read(buffer)) != -1) {
+            outStream.write(buffer, 0, bytesRead);
+        }
+        outStream.flush();
+        inStream.close();
+
     }
 
 
