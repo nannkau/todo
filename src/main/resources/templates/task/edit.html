@@ -77,7 +77,26 @@
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Finish Date</label>
+                                                        <label class="login2 pull-right pull-right-pro">User</label>
+                                                    </div>
+                                                    <div class="col-lg-7">
+                                                        <div class="input-mark-inner mg-b-22">
+                                                            <div class="form-select-list">
+                                                                <select class="form-control custom-select-value" name="roles"  th:field="*{users}" multiple>
+                                                                    <option th:each="obj : ${users}"
+                                                                            th:value="${obj.getId()}"
+                                                                            th:text="${obj.getFullName()}"></option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group-inner">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <label class="login2 pull-right pull-right-pro">Add file</label>
                                                     </div>
                                                     <div class="col-lg-5">
                                                         <div class="input-mark-inner mg-b-22">
@@ -133,7 +152,7 @@
                                             <div class="form-group-inner">
                                                 <div class="row">
                                                     <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Roles</label>
+                                                        <label class="login2 pull-right pull-right-pro">User</label>
                                                     </div>
                                                     <div class="col-lg-7">
                                                         <div class="input-mark-inner mg-b-22">

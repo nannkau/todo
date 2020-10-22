@@ -30,10 +30,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/seller/**").hasAnyAuthority("admin","seller")
-                .antMatchers("/staff/**").hasAnyAuthority("staff","admin")
+                .antMatchers("/user/**").hasAnyAuthority("admin")
+                .antMatchers("/role/**").hasAnyAuthority("admin")
                 //.antMatchers("/admin/**").hasAnyAuthority("admin")
-                .antMatchers("/**","/register").hasAnyAuthority("employee","admin")
+                .antMatchers("/**").hasAnyAuthority("employee","admin")
 //                .antMatchers("/**","/register").permitAll()
                 .and()
                 .exceptionHandling()

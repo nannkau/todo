@@ -23,6 +23,17 @@ public class TaskList {
     private String flgDelete;
     @OneToMany(mappedBy = "taskList")
     private List<Task> tasks;
+    @OneToOne
+    @JoinColumn(name = "user_id",referencedColumnName = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Integer getTaskListId() {
         return taskListId;

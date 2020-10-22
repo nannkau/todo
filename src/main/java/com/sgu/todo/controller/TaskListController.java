@@ -1,9 +1,11 @@
 package com.sgu.todo.controller;
 
+import com.sgu.todo.entity.Comment;
 import com.sgu.todo.entity.Role;
 import com.sgu.todo.entity.TaskList;
 import com.sgu.todo.service.TaskListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,12 +45,12 @@ public class TaskListController {
         return "task_list/add";
     }
     @RequestMapping(value = "/task-list/add.html",method = RequestMethod.POST)
-    public String add(@Valid TaskList taskList, BindingResult result){
+    public String add(@Valid TaskList taskList, BindingResult result, Authentication authentication){
         if (result.hasErrors()) {
             return "task_list/add";
         }
         else {
-            taskListService.save(taskList);
+            taskListService.save(taskList,authentication);
         }
         return "redirect:/task-list/index.html";
     }

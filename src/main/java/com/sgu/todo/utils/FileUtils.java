@@ -13,7 +13,7 @@ import java.util.List;
 
 public class FileUtils {
 
-    public static String upload(MultipartFile part, HttpServletRequest request, String path) throws IOException {
+    public static com.sgu.todo.entity.File upload(MultipartFile part, HttpServletRequest request, String path) throws IOException {
         System.out.println("uploadRootPath=" + path);
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmmss");
@@ -24,6 +24,7 @@ public class FileUtils {
         if (!uploadRootDir.exists()) {
             uploadRootDir.mkdirs();
         }
+        String name=part.getOriginalFilename().replaceAll("\\s", "_");
         String fileName = strDate+part.getOriginalFilename().replaceAll("\\s", "_");
         File file= new File(path +"/"+ fileName);
         try(InputStream is = part.getInputStream()){
@@ -35,12 +36,15 @@ public class FileUtils {
                 }
             }
         }
-        return fileName;
+        com.sgu.todo.entity.File file1= new com.sgu.todo.entity.File();
+        file1.setName(name);
+        file1.setPath(fileName);
+        return file1;
     }
-    public static List<String> upload(String path,HttpServletRequest request, MultipartFile[] parts) throws IOException {
-        List<String> files = new ArrayList<String>(parts.length);
+    public static List<com.sgu.todo.entity.File> upload(String path, HttpServletRequest request, MultipartFile[] parts) throws IOException {
+        List<com.sgu.todo.entity.File> files = new ArrayList<>(parts.length);
         for(MultipartFile part : parts) {
-            String file = upload(part,request, path);
+            com.sgu.todo.entity.File file = upload(part,request, path);
             files.add(file);
         }
         return files;

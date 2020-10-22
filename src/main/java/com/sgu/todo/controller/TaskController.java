@@ -1,10 +1,7 @@
 package com.sgu.todo.controller;
 
 import com.sgu.todo.dto.TaskDTO;
-import com.sgu.todo.entity.Comment;
-import com.sgu.todo.entity.Task;
-import com.sgu.todo.entity.TaskList;
-import com.sgu.todo.entity.User;
+import com.sgu.todo.entity.*;
 import com.sgu.todo.service.TaskListService;
 import com.sgu.todo.service.TaskService;
 import com.sgu.todo.service.UserService;
@@ -57,9 +54,11 @@ public class TaskController {
     }
     @RequestMapping(value = "/task/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id){
+
         Task task=taskService.findById(id);
         Date date= new Date();
         Comment comment= new Comment();
+        comment.setTask(task);
         model.addAttribute("comment",comment);
         model.addAttribute("date",date);
         model.addAttribute("task",task);
@@ -81,5 +80,24 @@ public class TaskController {
       Task task= taskService.deleteById(id);
         return "redirect:/task-list/detail/"+task.getTaskList().getTaskListId().toString();
     }
+    @RequestMapping(value = "/comment/add.html",method = RequestMethod.POST)
+    public String addComment(@Valid Comment comment,BindingResult result,Authentication authentication)
+    {
+
+        if (result.hasErrors()) {
+            return "task/detail"+comment.getTask().getTaskId().toString();
+        }
+        else {
+            taskService.addComment(comment,authentication);
+        }
+        return "redirect:/task/detail/"+comment.getTask().getTaskId().toString();
+    }
+    @RequestMapping(value = "/task/history/{id}")
+    public String listEditHistory(Model model,@PathVariable("id") Integer id){
+        List<EditHistory> editHistoryList= taskService.findById(id).getEditHistories();
+        model.addAttribute("editHistories",editHistoryList);
+        return "task/edithistory";
+    }
+
 
 }

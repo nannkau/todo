@@ -17,26 +17,18 @@
                                     <ul class="nav navbar-nav mai-top-nav">
                                         <li class="nav-item"><a href="#" class="nav-link">Home</a>
                                         </li>
-                                        <li class="nav-item"><a th:href="@{/user/index.html}" class="nav-link">User</a>
+                                        <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/user/index.html}" class="nav-link">User</a>
                                         </li>
-                                        <li class="nav-item"><a th:href="@{/role/index.html}" class="nav-link">Role</a>
+                                        <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/role/index.html}" class="nav-link">Role</a>
                                         </li>
-                                        <li class="nav-item"><a th:href="@{/task-list/index.html}" class="nav-link">Task list</a>
+                                        <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/task-list/index.html}" class="nav-link">Task list</a>
+                                        </li>
+                                        <li class="nav-item" ><a th:href="@{/my-task/my/index.html}" class="nav-link">My Task</a>
+                                        </li>
+                                        <li class="nav-item" ><a th:href="@{/my-task/public/index.html}" class="nav-link">Public Task</a>
                                         </li>
 
-                                        <li class="nav-item"><a href="#" class="nav-link">Services</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">Project <span class="angle-down-topmenu"><i class="fa fa-angle-down"></i></span></a>
-                                            <div role="menu" class="dropdown-menu animated flipInX">
-                                                <a href="#" class="dropdown-item">Company Info</a>
-                                                <a href="#" class="dropdown-item">Documentation</a>
-                                                <a href="#" class="dropdown-item">Expert Backend</a>
-                                                <a href="#" class="dropdown-item">Expert FrontEnd</a>
-                                                <a href="#" class="dropdown-item">Contact Support</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item"><a href="#" class="nav-link">Support</a>
+                                        <li class="nav-item" ><a th:href="@{/my-task/invite/index.html}" class="nav-link">Invite Task</a>
                                         </li>
                                     </ul>
                                 </div>

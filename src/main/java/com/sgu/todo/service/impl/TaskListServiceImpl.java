@@ -1,8 +1,11 @@
 package com.sgu.todo.service.impl;
 
 import com.sgu.todo.entity.TaskList;
+import com.sgu.todo.entity.User;
 import com.sgu.todo.repository.TaskListRepository;
+import com.sgu.todo.repository.UserRepository;
 import com.sgu.todo.service.TaskListService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -11,9 +14,11 @@ import java.util.Optional;
 @Service
 public class TaskListServiceImpl implements TaskListService {
     final private TaskListRepository taskRepository;
+    final  private UserRepository userRepository;
 
-    public TaskListServiceImpl(TaskListRepository taskRepository) {
+    public TaskListServiceImpl(TaskListRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -23,10 +28,14 @@ public class TaskListServiceImpl implements TaskListService {
     }
 
     @Override
-    public TaskList save(TaskList taskList) {
-        taskList.setFlgDelete("0");
+    public TaskList save(TaskList taskList, Authentication authentication) {
         if(taskList.getTaskListId()==null){
-            taskList.setCreateDate(new Date());
+            User user=userRepository.findByEmail(authentication.getName());
+            taskList.setFlgDelete("0");
+            if(taskList.getTaskListId()==null){
+                taskList.setCreateDate(new Date());
+            }
+            taskList.setUser(user);
         }
         return taskRepository.save(taskList);
     }
