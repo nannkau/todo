@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <th:block th:replace="/flagments/header::header">
+        <title>Detail List Task</title>
+    </th:block>
 </head>
-<body>
+<body class="materialdesign">
+<th:block th:replace="/flagments/sidebar::sidebar"></th:block>
 
+<div class="admin-dashone-data-table-area">
+    <div class="data-table-area mg-b-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sparkline13-list shadow-reset">
+                        <div class="sparkline13-graph">
+                            <div class="datatable-dashv1-list custom-datatable-overright">
+                                <div class="sparkline13-hd">
+                                    <div class="main-sparkline13-hd">
+                                        <h1>Task<span class="table-project-n"></span> Table</h1>
+                                        <div class="sparkline13-outline-icon">
+                                            <a th:href="@{/task/add.html}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="toolbar">
+                                    <select class="form-control">
+                                        <option value="">Export Basic</option>
+                                        <option value="all">Export All</option>
+                                        <option value="selected">Export Selected</option>
+                                    </select>
+                                </div>
+                                <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-show-columns="true" data-show-pagination-switch="true" data-show-refresh="true" data-key-events="true" data-show-toggle="true" data-resizable="true" data-cookie="true" data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                    <thead>
+                                    <tr>
+                                        <th data-checkbox="true"></th>
+                                        <th data-field="name" >Name</th>
+                                        <th data-field="startDate" >Start Date</th>
+                                        <th data-field="finishDate" >Finish Date</th>
+                                        <th data-field="Privacy" >Privacy</th>
+                                        <th data-field="Status" >Status</th>
+                                        <th data-field="Delay" >Delay</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                    <tr th:each=" task :${tasks}">
+                                        <td></td>
+                                        <td th:text="${task.title}">name</td>
+                                        <td th:text="${#dates.format(task.startDate, 'dd/MM/yyyy HH:mm')}">startDate</td>
+                                        <td th:text="${#dates.format(task.finishDate, 'dd/MM/yyyy HH:mm')}">finishDate</td>
+                                        <td >
+                                            <p  th:style = "${task.getPrivacy()=='0'} ? 'color: blue' : 'color: red' " th:text="${task.getPrivacy()=='0'? 'Private':'Public'}">
+                                                    private
+                                            </p>
+                                        </td>
+                                        <td >
+                                            <p  th:style = "${task.getStatus()=='0'} ? 'color: blue' : 'color: red' " th:text="${task.getStatus()=='0'? 'Working':'Finish'}">
+                                                    Finish
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p  th:if="${task.finishDate.before(date)}"> <span class="glyphicon glyphicon-warning-sign"></span></p>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group project-list-action">
+                                                <a th:href="@{'/task/detail/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-id-card-o" aria-hidden="true"></i></i> Detail</button></a>
+                                                <a th:href="@{'/task/edit/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                <a th:href="@{'/task/history/' + ${task.taskId}}" sec:authorize="hasAuthority('admin')"> <button class="btn btn-white btn-xs" ><i class="fa fa-history" aria-hidden="true"></i>Edit History</button></a>
+                                                <a th:href="@{'/task/delete/' + ${task.taskId}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="/flagments/footer::footer"></th:block>
 </body>
 </html>

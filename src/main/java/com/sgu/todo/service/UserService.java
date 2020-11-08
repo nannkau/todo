@@ -11,5 +11,6 @@ public interface UserService {
     public void deleteById(Integer id);
     public User findById(int id);
     public List<User> findDifferentEmail(String email);
+    public User findByEmail(String email);
 
 }

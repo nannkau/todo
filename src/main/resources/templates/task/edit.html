@@ -8,194 +8,180 @@
 </head>
 <body class="materialdesign">
 <th:block th:replace="/flagments/sidebar::sidebar"></th:block>
-
-<div class="basic-form-area mg-b-15">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="sparkline12-list shadow-reset mg-t-30">
-                    <div class="sparkline12-hd">
-                        <div class="main-sparkline12-hd">
-                            <h1>Add Role</h1>
-                            <div class="sparkline12-outline-icon">
-                                <span class="sparkline12-collapse-link"><i class="fa fa-chevron-up"></i></span>
-                                <span><i class="fa fa-wrench"></i></span>
-                                <span class="sparkline12-collapse-close"><i class="fa fa-times"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sparkline12-graph">
-                        <div class="basic-login-form-ad">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="all-form-element-inner">
-                                        <form action="#" th:action="@{/task/add.html}" th:object="${task}" method="post" enctype="multipart/form-data">
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Title</label>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <input type="text" id="title" th:field="*{title}" class="form-control" name="title" />
-                                                            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="badge badge-danger left"></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Content</label>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <textarea  type="text" id="summernote1" th:field="*{content}" class="form-control" name="content" />
-                                                            <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="badge badge-danger left"></span>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Finish Date</label>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-group data-custon-pick" id="data_2">
-                                                                <div class="input-group date">
-                                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                                    <input type="text" class="form-control" id="datePicker" th:field="*{finishDate}">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">User</label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-select-list">
-                                                                <select class="form-control custom-select-value" name="roles"  th:field="*{users}" multiple>
-                                                                    <option th:each="obj : ${users}"
-                                                                            th:value="${obj.getId()}"
-                                                                            th:text="${obj.getFullName()}"></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Add file</label>
-                                                    </div>
-                                                    <div class="col-lg-5">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="input append-small-btn">
-                                                                <div class="file-button">
-                                                                    Browse
-                                                                    <input type="file" onchange="document.getElementById('append-small-btn').value = this.value;" th:field="*{parts}" name="part " multiple="multiple">
-                                                                    <span th:if="${#fields.hasErrors('parts')}" th:errors="*{parts}" class="badge badge-danger left"></span>
-                                                                </div>
-                                                                <input type="text" id="append-small-btn" placeholder="no file selected">
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Privacy</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-select-list">
-                                                                <select class="form-control custom-select-value" name="account" th:field="*{privacy}">
-                                                                    <option value="0">Private</option>
-                                                                    <option value="1">Public</option>
-                                                                </select>
-                                                                <span th:if="${#fields.hasErrors('privacy')}" th:errors="*{privacy}" class="badge badge-danger left"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">Privacy</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-select-list">
-                                                                <select class="form-control custom-select-value" name="account" th:field="*{status}">
-                                                                    <option value="0">Working</option>
-                                                                    <option value="1">Finish</option>
-                                                                </select>
-                                                                <span th:if="${#fields.hasErrors('privacy')}" th:errors="*{status}" class="badge badge-danger left"></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group-inner">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <label class="login2 pull-right pull-right-pro">User</label>
-                                                    </div>
-                                                    <div class="col-lg-7">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <div class="form-select-list">
-                                                                <select class="form-control custom-select-value" name="roles"  th:field="*{users}" multiple>
-                                                                    <option th:each="obj : ${users}"
-                                                                            th:value="${obj.getId()}"
-                                                                            th:text="${obj.getFullName()}"></option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" th:field="*{taskList}" id="taskList">
-                                            <input type="hidden" th:field="*{taskId}" id="taskId">
-                                            <div class="form-group-inner">
-                                                <div class="login-btn-inner">
-                                                    <div class="row">
-                                                        <div class="col-lg-3"></div>
-                                                        <div class="col-lg-9">
-                                                            <div class="login-horizental cancel-wp pull-left">
-                                                                <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                    </div>
+<div th:if="${email !=null}">
+    <div class="basic-form-area mg-b-15">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sparkline12-list shadow-reset mg-t-30">
+                        <div class="sparkline12-hd">
+                            <div class="main-sparkline12-hd">
+                                <h1>Add Role</h1>
+                                <div class="sparkline12-outline-icon">
+                                    <span class="sparkline12-collapse-link"><i class="fa fa-chevron-up"></i></span>
+                                    <span><i class="fa fa-wrench"></i></span>
+                                    <span class="sparkline12-collapse-close"><i class="fa fa-times"></i></span>
                                 </div>
                             </div>
                         </div>
+                        <div class="sparkline12-graph">
+                            <div class="basic-login-form-ad">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="all-form-element-inner">
+                                            <form action="#" th:action="@{/task/add.html}" th:object="${task}" method="post" enctype="multipart/form-data">
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Title</label>
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <input type="text" id="title" th:field="*{title}" class="form-control" name="title" />
+                                                                <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="badge badge-danger left"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Content</label>
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <textarea  type="text" id="summernote1" th:field="*{content}" class="form-control" name="content" />
+                                                                <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="badge badge-danger left"></span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Finish Date</label>
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <div class="form-group data-custon-pick" id="data_2">
+                                                                    <div class="input-group date">
+                                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                                        <input type="text" class="form-control" id="datePicker" th:field="*{finishDate}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Add file</label>
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <div class="input append-small-btn">
+                                                                    <div class="file-button">
+                                                                        Browse
+                                                                        <input type="file" onchange="document.getElementById('append-small-btn').value = this.value;" th:field="*{parts}" name="part " multiple="multiple">
+                                                                        <span th:if="${#fields.hasErrors('parts')}" th:errors="*{parts}" class="badge badge-danger left"></span>
+                                                                    </div>
+                                                                    <input type="text" id="append-small-btn" placeholder="no file selected">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Privacy</label>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <div class="form-select-list">
+                                                                    <select class="form-control custom-select-value" name="account" th:field="*{privacy}">
+                                                                        <option value="0">Private</option>
+                                                                        <option value="1">Public</option>
+                                                                    </select>
+                                                                    <span th:if="${#fields.hasErrors('privacy')}" th:errors="*{privacy}" class="badge badge-danger left"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">Privacy</label>
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <div class="form-select-list">
+                                                                    <select class="form-control custom-select-value" name="account" th:field="*{status}">
+                                                                        <option value="0">Working</option>
+                                                                        <option value="1">Finish</option>
+                                                                    </select>
+                                                                    <span th:if="${#fields.hasErrors('privacy')}" th:errors="*{status}" class="badge badge-danger left"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group-inner">
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <label class="login2 pull-right pull-right-pro">User</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <div class="input-mark-inner mg-b-22">
+                                                                <div class="form-select-list">
+                                                                    <select class="form-control custom-select-value" name="roles"  th:field="*{users}" multiple>
+                                                                        <option th:each="obj : ${users}"
+                                                                                th:value="${obj.getId()}"
+                                                                                th:text="${obj.getFullName()}"></option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" th:field="*{taskId}" id="taskId">
+                                                <div class="form-group-inner">
+                                                    <div class="login-btn-inner">
+                                                        <div class="row">
+                                                            <div class="col-lg-3"></div>
+                                                            <div class="col-lg-9">
+                                                                <div class="login-horizental cancel-wp pull-left">
+                                                                    <button class="btn btn-sm btn-primary login-submit-cs" type="submit">Save Change</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- ELSE -->
+<div th:unless="${email !=null}">
+    <h1>You not in task</h1>
+</div>
+
 <th:block th:replace="/flagments/footer::footer"></th:block>
 <script>
     $( document ).ready(function() {

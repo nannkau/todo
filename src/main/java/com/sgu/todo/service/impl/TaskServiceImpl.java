@@ -56,7 +56,7 @@ public class TaskServiceImpl implements TaskService {
             if(task.getUsers() !=null){
                 for (User user1:
                         task.getUsers()) {
-                    users.add(user);
+                    users.add(user1);
                 }
             }
             task.setUsers(users);
@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
             }
             User userCreate=temp.getUsers().get(0);
             List<User> userList=new ArrayList<>();
-            userList.add(user);
+            userList.add(temp.getUsers().get(0));
             if(task.getUsers()!=null){
                 userList.addAll(task.getUsers());
             }

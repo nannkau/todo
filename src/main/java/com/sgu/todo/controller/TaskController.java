@@ -3,7 +3,6 @@ package com.sgu.todo.controller;
 import com.sgu.todo.dto.TaskDTO;
 import com.sgu.todo.entity.*;
 import com.sgu.todo.service.FileService;
-import com.sgu.todo.service.TaskListService;
 import com.sgu.todo.service.TaskService;
 import com.sgu.todo.service.UserService;
 import org.apache.commons.io.FilenameUtils;
@@ -34,21 +33,22 @@ public class TaskController {
     private String outdir;
     private final FileService fileService;
     private final TaskService taskService;
-    private final TaskListService taskListService;
     private final UserService userService;
     @Autowired
-    public TaskController(FileService fileService, TaskService taskService, TaskListService taskListService, UserService userService) {
+    public TaskController(FileService fileService, TaskService taskService, UserService userService) {
         this.fileService = fileService;
         this.taskService = taskService;
-        this.taskListService = taskListService;
         this.userService = userService;
     }
-
-    @RequestMapping(value = "/task/add/{id}")
-    public String add(Model model,  Authentication authentication,@PathVariable("id") Integer id){
+    @RequestMapping(value = "/task-all/index.html")
+    public String index(Model model){
+        model.addAttribute("tasks",taskService.findAll());
+        model.addAttribute("date",new Date());
+        return "task/index";
+    }
+    @RequestMapping(value = "/task/add.html")
+    public String add(Model model,  Authentication authentication){
         TaskDTO task= new TaskDTO();
-        TaskList taskList=taskListService.findById(id).get();
-        task.setTaskList(taskList);
         List<User> users=userService.findDifferentEmail(authentication.getName());
         model.addAttribute("users",users);
         model.addAttribute("task",task);
@@ -62,7 +62,10 @@ public class TaskController {
         else {
             taskService.create(task,request,authentication);
         }
-    return "redirect:/task-list/detail/"+task.getTaskList().getTaskListId().toString();
+        if (checkRole(authentication.getName())){
+            return "redirect:/task-all/index.html";
+        }
+        return "redirect:/my-task/my/index.html";
     }
     @RequestMapping(value = "/task/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id){
@@ -79,6 +82,9 @@ public class TaskController {
     @RequestMapping(value = "/task/edit/{id}")
     public String edit(Model model, @PathVariable("id") Integer id,Authentication authentication){
         Task task=taskService.findById(id);
+        if (task.getUsers().get(0).getEmail().equals(authentication.getName())){
+            model.addAttribute("email",authentication.getName());
+        }
         List<User> users=userService.findDifferentEmail(authentication.getName());
         ModelMapper modelMapper = new ModelMapper();
         TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
@@ -87,10 +93,13 @@ public class TaskController {
         return "task/edit";
     }
     @RequestMapping(value = "/task/delete/{id}")
-    public String delete(Model model,@PathVariable("id") Integer id){
+    public String delete(Model model,@PathVariable("id") Integer id,Authentication authentication){
 
       Task task= taskService.deleteById(id);
-        return "redirect:/task-list/detail/"+task.getTaskList().getTaskListId().toString();
+        if (checkRole(authentication.getName())){
+            return "redirect:/task-all/index.html";
+        }
+        return "redirect:/my-task/my/index.html";
     }
     @RequestMapping(value = "/comment/add.html",method = RequestMethod.POST)
     public String addComment(@Valid Comment comment,BindingResult result,Authentication authentication)
@@ -113,8 +122,6 @@ public class TaskController {
     @RequestMapping(value = "/file/download/{id}")
     public void downloadFile(@PathVariable("id") Integer id, HttpServletResponse resp) throws IOException {
         File file= fileService.findById(id);
-
-
         java.io.File  file1= new java.io.File(outdir+"/"+file.getPath());
         resp.setContentType(FilenameUtils.getExtension(outdir+"/"+file.getPath()));
         resp.setHeader("Content-disposition", "attachment; filename=" + file.getName());
@@ -129,6 +136,13 @@ public class TaskController {
         outStream.flush();
         inStream.close();
 
+    }
+    private boolean checkRole(String email){
+        User user=userService.findByEmail(email);
+        for (Role role :user.getRoles()){
+            if (role.getName().equals("admin")) return true;
+        }
+        return false;
     }
 
 

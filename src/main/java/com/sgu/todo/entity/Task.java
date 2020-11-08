@@ -49,18 +49,6 @@ public class Task implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "task_user",joinColumns = @JoinColumn(name = "task_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users;
-    @ManyToOne
-    @JoinColumn(name = "task_list_id",referencedColumnName = "task_list_id")
-    private TaskList taskList;
-
-    public TaskList getTaskList() {
-        return taskList;
-    }
-
-    public void setTaskList(TaskList taskList) {
-        this.taskList = taskList;
-    }
-
     public Integer getTaskId() {
         return taskId;
     }
