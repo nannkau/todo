@@ -11,7 +11,6 @@ import java.util.Set;
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -24,7 +23,8 @@ public class User implements Serializable {
     private String password;
     @Column(name = "flg_delete",length = 1)
     private String flgDelete;
-
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<UserTaskRoleLink> userTaskRoleLinks;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
@@ -32,8 +32,6 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
-    @ManyToMany(mappedBy = "users",fetch = FetchType.LAZY)
-    private List<Task> tasks;
     public Integer getId() {
         return id;
     }
@@ -81,11 +79,11 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public Set<UserTaskRoleLink> getUserTaskRoleLinks() {
+        return userTaskRoleLinks;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setUserTaskRoleLinks(Set<UserTaskRoleLink> userTaskRoleLinks) {
+        this.userTaskRoleLinks = userTaskRoleLinks;
     }
 }

@@ -12,8 +12,7 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task,Integer> {
     public List<Task> findByFlgDelete(String flgDelete);
-    @Query(value="SELECT t from Task t join t.users u where  u.email = :email")
-    public List<Task> findTaskByEmail(@Param("email") String email);
     public List<Task> findTaskByPrivacy(String privacy);
+
 
 }

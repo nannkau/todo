@@ -82,9 +82,6 @@ public class TaskController {
     @RequestMapping(value = "/task/edit/{id}")
     public String edit(Model model, @PathVariable("id") Integer id,Authentication authentication){
         Task task=taskService.findById(id);
-        if (task.getUsers().get(0).getEmail().equals(authentication.getName())){
-            model.addAttribute("email",authentication.getName());
-        }
         List<User> users=userService.findDifferentEmail(authentication.getName());
         ModelMapper modelMapper = new ModelMapper();
         TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);

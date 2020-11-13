@@ -15,11 +15,13 @@
                             <div class="col-lg-6 col-md-1 col-sm-1 col-xs-12">
                                 <div class="header-top-menu tabl-d-n">
                                     <ul class="nav navbar-nav mai-top-nav">
-                                        <li class="nav-item"><a href="#" class="nav-link">Home</a>
+                                        <li class="nav-item"><a th:href="@{/}" class="nav-link">Home</a>
                                         </li>
                                         <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/user/index.html}" class="nav-link">User</a>
                                         </li>
                                         <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/role/index.html}" class="nav-link">Role</a>
+                                        <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{ /role-of-task/index.html}" class="nav-link">Role Of Task</a>
+                                        </li>
                                         </li>
                                         <li class="nav-item" sec:authorize="hasAuthority('admin')"><a th:href="@{/task-all/index.html}" class="nav-link">Task</a>
                                         </li>
@@ -27,7 +29,6 @@
                                         </li>
                                         <li class="nav-item" ><a th:href="@{/my-task/public/index.html}" class="nav-link">Public Task</a>
                                         </li>
-
                                         <li class="nav-item" ><a th:href="@{/my-task/invite/index.html}" class="nav-link">Invite Task</a>
                                         </li>
                                     </ul>

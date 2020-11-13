@@ -42,7 +42,6 @@ public class TaskServiceImpl implements TaskService {
     public void create(TaskDTO taskDTO, HttpServletRequest request, Authentication authentication) {
         ModelMapper modelMapper = new ModelMapper();
         Task task = modelMapper.map(taskDTO, Task.class);
-        User user=userRepository.findByEmail(authentication.getName());
         if(task.getTaskId()==null){
             if(taskDTO.getParts().length>0){
                 try {
@@ -51,18 +50,8 @@ public class TaskServiceImpl implements TaskService {
                     e.printStackTrace();
                 }
             }
-            List<User> users= new ArrayList<>();
-            users.add(user);
-            if(task.getUsers() !=null){
-                for (User user1:
-                        task.getUsers()) {
-                    users.add(user1);
-                }
-            }
-            task.setUsers(users);
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
-            editHistory.setUser(user);
             editHistory.setStatus("0");
             List<EditHistory> editHistoryList=new ArrayList<>();
             editHistoryList.add(editHistory);
@@ -83,20 +72,12 @@ public class TaskServiceImpl implements TaskService {
                     e.printStackTrace();
                 }
             }
-            User userCreate=temp.getUsers().get(0);
-            List<User> userList=new ArrayList<>();
-            userList.add(temp.getUsers().get(0));
-            if(task.getUsers()!=null){
-                userList.addAll(task.getUsers());
-            }
             List<EditHistory> editHistoryList= temp.getEditHistories();
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
-            editHistory.setUser(user);
             editHistoryList.add(editHistory);
             task.setEditHistories(editHistoryList);
             task.setFiles(fileList);
-            task.setUsers(userList);
             task.setStartDate(temp.getStartDate());
 
         }
@@ -131,38 +112,21 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findMyTask(String email) {
-        List<Task> tempTasks= taskRepository.findTaskByEmail(email);
-        List<Task> tasks= new ArrayList<>();
-        for (Task task:
-             tempTasks) {
-            if(task.getUsers().get(0).getEmail().equals(email)) tasks.add(task);
+        List<Task> tempTasks= taskRepository.findByFlgDelete("1");
 
-        }
-        return tasks;
+        return tempTasks;
     }
 
     @Override
     public List<Task> findInviteTask(String email) {
-        List<Task> tempTasks= taskRepository.findTaskByEmail(email);
-        List<Task> tasks= new ArrayList<>();
-        for (Task task:
-                tempTasks) {
-            if(!task.getUsers().get(0).getEmail().equals(email) )tasks.add(task);
-
-        }
-        return tasks;
+        List<Task> tempTasks= taskRepository.findByFlgDelete("1");
+        return tempTasks;
     }
 
     @Override
     public List<Task> findPublicTask(String email) {
         List<Task> tempTasks= taskRepository.findTaskByPrivacy("1");
-        List<Task> tasks= new ArrayList<>();
-        for (Task task:
-                tempTasks) {
-            if(!task.getUsers().get(0).getEmail().equals(email) )tasks.add(task);
-
-        }
-        return tasks;
+        return tempTasks;
     }
 
 

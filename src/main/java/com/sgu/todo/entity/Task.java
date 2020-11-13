@@ -46,9 +46,8 @@ public class Task implements Serializable {
     @OneToMany(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "task_id")
     private List<Comment> comments;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "task_user",joinColumns = @JoinColumn(name = "task_id"),inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<User> users;
+    @OneToMany(mappedBy = "task", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Set<UserTaskRoleLink> userTaskRoleLinks;
     public Integer getTaskId() {
         return taskId;
     }
@@ -137,11 +136,11 @@ public class Task implements Serializable {
         this.comments = comments;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public Set<UserTaskRoleLink> getUserTaskRoleLinks() {
+        return userTaskRoleLinks;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUserTaskRoleLinks(Set<UserTaskRoleLink> userTaskRoleLinks) {
+        this.userTaskRoleLinks = userTaskRoleLinks;
     }
 }
