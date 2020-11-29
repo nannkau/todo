@@ -61,4 +61,14 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public List<User> findUserInTask(Integer id) {
+        return userRepository.findUserByInUser(id);
+    }
+
+    @Override
+    public List<User> findUserNotInTask(Integer id) {
+        return userRepository.findUserByOtherTask(id);
+    }
 }

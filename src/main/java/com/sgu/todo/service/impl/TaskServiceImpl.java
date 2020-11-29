@@ -24,13 +24,18 @@ public class TaskServiceImpl implements TaskService {
     final private TaskRepository taskRepository;
     final private CommentRepository commentRepository;
     final private  FileRepository fileRepository;
+    final  private RoleOfTaskRepository roleOfTaskRepository;
+    final private UserTaskRoleLinkRepository  userTaskRoleLinkRepository ;
+
     @Autowired
-    public TaskServiceImpl(EditHistoryRepository editHistoryRepositor, UserRepository userRepository, TaskRepository taskRepository, FileRepository fileRepository, CommentRepository commentRepository) {
+    public TaskServiceImpl(EditHistoryRepository editHistoryRepositor, UserRepository userRepository, TaskRepository taskRepository, FileRepository fileRepository, CommentRepository commentRepository, RoleOfTaskRepository roleOfTaskRepository, UserTaskRoleLinkRepository userTaskRoleLinkRepository) {
         this.editHistoryRepositor = editHistoryRepositor;
         this.userRepository = userRepository;
         this.taskRepository = taskRepository;
         this.fileRepository = fileRepository;
         this.commentRepository = commentRepository;
+        this.roleOfTaskRepository = roleOfTaskRepository;
+        this.userTaskRoleLinkRepository = userTaskRoleLinkRepository;
     }
 
     @Override
@@ -42,6 +47,7 @@ public class TaskServiceImpl implements TaskService {
     public void create(TaskDTO taskDTO, HttpServletRequest request, Authentication authentication) {
         ModelMapper modelMapper = new ModelMapper();
         Task task = modelMapper.map(taskDTO, Task.class);
+        User user=userRepository.findByEmail(authentication.getName());
         if(task.getTaskId()==null){
             if(taskDTO.getParts().length>0){
                 try {
@@ -58,6 +64,13 @@ public class TaskServiceImpl implements TaskService {
             task.setEditHistories(editHistoryList);
             task.setFlgDelete("0");
             task.setStartDate(new Date());
+            RoleOfTask roleOfTask=roleOfTaskRepository.findByCode("CREATOR").get(0);
+            UserTaskRoleLink userTaskRoleLink= new UserTaskRoleLink();
+            userTaskRoleLink.setUser(user);
+            userTaskRoleLink.setTask(task);
+            userTaskRoleLink.setRoleOfTask(roleOfTask);
+            userTaskRoleLinkRepository.save(userTaskRoleLink);
+
         }
         else {
             Task temp=taskRepository.findById(task.getTaskId()).get();
@@ -79,9 +92,10 @@ public class TaskServiceImpl implements TaskService {
             task.setEditHistories(editHistoryList);
             task.setFiles(fileList);
             task.setStartDate(temp.getStartDate());
+            taskRepository.save(task);
 
         }
-        taskRepository.save(task);
+
     }
 
     @Override
@@ -127,6 +141,23 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> findPublicTask(String email) {
         List<Task> tempTasks= taskRepository.findTaskByPrivacy("1");
         return tempTasks;
+    }
+
+    @Override
+    public void manageAccess(Integer userId,Integer taskId,Integer roleOfTaskId) {
+        User user= userRepository.findById(userId).get();
+        Task task= taskRepository.findById(taskId).get();
+        RoleOfTask roleOfTask= roleOfTaskRepository.findById(roleOfTaskId).get();
+        UserTaskRoleLink userTaskRoleLink= new UserTaskRoleLink();
+        userTaskRoleLink.setRoleOfTask(roleOfTask);
+        userTaskRoleLink.setTask(task);
+        userTaskRoleLink.setUser(user);
+        userTaskRoleLinkRepository.save(userTaskRoleLink);
+    }
+
+    @Override
+    public void removeUserTask(Integer userId, Integer taskId) {
+        userTaskRoleLinkRepository.deleteByUserId(taskId,userId);
     }
 
 

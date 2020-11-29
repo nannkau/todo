@@ -18,7 +18,7 @@
                             <div class="main-sparkline13-hd">
                                 <h1>User<span class="table-project-n"></span> Table</h1>
                                 <div class="sparkline13-outline-icon">
-                                    <a th:href="@{/role/add.html}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
+                                    <a th:href="@{'/manage-access/add/'+${taskId}}"><button type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>CREATE NEW</button></a>
                                 </div>
                             </div>
                         </div>
@@ -36,29 +36,25 @@
                                     <tr>
                                         <th data-checkbox="true"></th>
                                         <th data-field="name" >Name</th>
-                                        <th data-field="detail" >detail</th>
-                                        <th data-field="active" >Active</th>
+                                        <th data-field="detail" >Role</th>
                                         <th >Action</th>
                                     </tr>
                                     </thead>
                                     <tbody >
-                                    <tr th:each=" role :${roles}">
-                                        <td></td>
-                                        <td th:text="${role.name}">name</td>
-                                        <td th:text="${role.detail}">detail</td>
-                                        <td >
-                                            <p  th:style = "${role.getFlgDelete()=='0'} ? 'color: blue' : 'color: red' " th:text="${role.getFlgDelete()=='0'? 'active':'not active'}">
-                                                    active
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group project-list-action">
-                                                <a th:href="@{'/role/edit/' + ${role.id}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <a th:href="@{'/role/delete/' + ${role.id}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
-                                            </div>
-                                        </td>
+                                    <th:block th:if="${userTaskRoleLinks !=null}">
+                                        <tr th:each=" obj :${userTaskRoleLinks}">
+                                            <td></td>
+                                            <td th:text="${obj.getUser().getFullName()}">name</td>
+                                            <td th:text="${obj.getRoleOfTask().getName()}">Role</td>
+                                            <td>
+                                                <div class="btn-group project-list-action">
+                                                    <a th:href="@{'/manage-access/edit/' + ${obj.getId()}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
+                                                    <a th:href="@{'/manage-access/delete/' + ${obj.getId()}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
+                                                </div>
+                                            </td>
 
-                                    </tr>
+                                        </tr>
+                                    </th:block>
                                     </tbody>
                                 </table>
                             </div>

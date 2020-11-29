@@ -20,4 +20,6 @@ public interface TaskService {
     public List<Task> findMyTask(String email);
     public List<Task> findInviteTask(String email);
     public List<Task> findPublicTask(String email);
+    public void manageAccess(Integer userId,Integer taskId,Integer roleOfTaskId);
+    public void removeUserTask(Integer userId,Integer taskId);
 }

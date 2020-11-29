@@ -5,6 +5,7 @@ import com.sgu.todo.entity.*;
 import com.sgu.todo.service.FileService;
 import com.sgu.todo.service.TaskService;
 import com.sgu.todo.service.UserService;
+import com.sgu.todo.service.UserTaskRoleLinkService;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,13 @@ public class TaskController {
     private final FileService fileService;
     private final TaskService taskService;
     private final UserService userService;
+    private final UserTaskRoleLinkService userTaskRoleLinkService;
     @Autowired
-    public TaskController(FileService fileService, TaskService taskService, UserService userService) {
+    public TaskController(FileService fileService, TaskService taskService, UserService userService, UserTaskRoleLinkService userTaskRoleLinkService) {
         this.fileService = fileService;
         this.taskService = taskService;
         this.userService = userService;
+        this.userTaskRoleLinkService = userTaskRoleLinkService;
     }
     @RequestMapping(value = "/task-all/index.html")
     public String index(Model model){
@@ -71,12 +74,14 @@ public class TaskController {
     public String detail(Model model, @PathVariable("id") Integer id){
 
         Task task=taskService.findById(id);
+        User user=userTaskRoleLinkService.findUserCreateTask(id);
         Date date= new Date();
         Comment comment= new Comment();
         comment.setTask(task);
         model.addAttribute("comment",comment);
         model.addAttribute("date",date);
         model.addAttribute("task",task);
+        model.addAttribute("user",user);
         return "task/detail";
     }
     @RequestMapping(value = "/task/edit/{id}")

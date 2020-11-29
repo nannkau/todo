@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface RoleOfTaskRepository  extends JpaRepository<RoleOfTask,Integer> {
     public List<RoleOfTask> findByFlgDelete(String flag);
+    public  List<RoleOfTask> findByCode(String code);
 }
