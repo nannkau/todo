@@ -3,6 +3,7 @@ package com.sgu.todo.service.impl;
 import com.sgu.todo.entity.User;
 import com.sgu.todo.repository.UserRepository;
 import com.sgu.todo.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getId()!=null){
+            if (!StringUtils.isNotBlank(user.getPassword())){
+                User temp=userRepository.findById(user.getId()).get();
+                user.setPassword(temp.getPassword());
+            }
+            else {
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+        }
+        else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         return userRepository.save(user);
     }
 

@@ -70,7 +70,7 @@
                                             <div class="btn-group project-list-action">
                                                 <a th:href="@{'/task/detail/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-id-card-o" aria-hidden="true"></i></i> Detail</button></a>
                                                 <a th:href="@{'/task/edit/' + ${task.taskId}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <a th:href="@{'/task/delete/' + ${task.taskId}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
+                                                <a th:href="@{'/task/delete/' + ${task.taskId}}" sec:authorize="hasAuthority('admin')"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
                                                 <a th:href="@{'/task/history/' + ${task.taskId}}" sec:authorize="hasAuthority('admin')"> <button class="btn btn-white btn-xs" ><i class="fa fa-history" aria-hidden="true"></i>Edit History</button></a>
                                             </div>
                                         </td>

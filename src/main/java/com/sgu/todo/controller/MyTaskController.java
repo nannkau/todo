@@ -28,16 +28,23 @@ public class MyTaskController {
     }
     @RequestMapping(value = "/my-task/my/index.html")
     public String myTask(Model model, Authentication authentication){
-        List<Task> tasks=taskService.findMyTask(authentication.getName());
+        List<Task> tasks=taskService.findMyTaskByCode(authentication.getName(),"CREATOR");
         model.addAttribute("tasks",tasks);
         model.addAttribute("date" ,new Date());
         return "my_task/my_task";
     }
-    @RequestMapping(value = "/my-task/invite/index.html")
-    public String inviteTask(Model model, Authentication authentication){
-        List<Task> tasks=taskService.findInviteTask(authentication.getName());
+    @RequestMapping(value = "/my-task/join/index.html")
+    public String joinTask(Model model, Authentication authentication){
+        List<Task> tasks=taskService.findMyTaskByCode(authentication.getName(),"JOINER");
         model.addAttribute("tasks",tasks);
         model.addAttribute("date" ,new Date());
         return "my_task/invite_task";
+    }
+    @RequestMapping(value = "/my-task/visit/index.html")
+    public String visitTask(Model model, Authentication authentication){
+        List<Task> tasks=taskService.findMyTaskByCode(authentication.getName(),"VISITOR");
+        model.addAttribute("tasks",tasks);
+        model.addAttribute("date" ,new Date());
+        return "my_task/visit_task";
     }
 }

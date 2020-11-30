@@ -2,10 +2,8 @@ package com.sgu.todo.controller;
 
 import com.sgu.todo.dto.TaskDTO;
 import com.sgu.todo.entity.*;
-import com.sgu.todo.service.FileService;
-import com.sgu.todo.service.TaskService;
-import com.sgu.todo.service.UserService;
-import com.sgu.todo.service.UserTaskRoleLinkService;
+import com.sgu.todo.service.*;
+import com.sgu.todo.utils.Constants;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +33,14 @@ public class TaskController {
     private final FileService fileService;
     private final TaskService taskService;
     private final UserService userService;
+    private final RoleOfTaskService roleOfTaskService;
     private final UserTaskRoleLinkService userTaskRoleLinkService;
     @Autowired
-    public TaskController(FileService fileService, TaskService taskService, UserService userService, UserTaskRoleLinkService userTaskRoleLinkService) {
+    public TaskController(FileService fileService, TaskService taskService, UserService userService, RoleOfTaskService roleOfTaskService, UserTaskRoleLinkService userTaskRoleLinkService) {
         this.fileService = fileService;
         this.taskService = taskService;
         this.userService = userService;
+        this.roleOfTaskService = roleOfTaskService;
         this.userTaskRoleLinkService = userTaskRoleLinkService;
     }
     @RequestMapping(value = "/task-all/index.html")
@@ -71,9 +71,20 @@ public class TaskController {
         return "redirect:/my-task/my/index.html";
     }
     @RequestMapping(value = "/task/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id){
-
+    public String detail(Model model, @PathVariable("id") Integer id,Authentication authentication){
+       if (roleOfTaskService.getRoleOfTaskForUser(authentication.getName(),id).size()>0){
+           RoleOfTask roleOfTask=roleOfTaskService.getRoleOfTaskForUser(authentication.getName(),id).get(0);
+           model.addAttribute(Constants.ROLE_OF_TASK,roleOfTask.getCode());
+       }
         Task task=taskService.findById(id);
+       if (task.getPrivacy().equals("1")){
+           model.addAttribute(Constants.ROLE_OF_TASK,"public");
+       }
+       for (Role role :userService.findByEmail(authentication.getName()).getRoles()){
+           if (role.getName().equals("admin")){
+               model.addAttribute(Constants.ROLE_OF_TASK,"admin");
+           }
+       }
         User user=userTaskRoleLinkService.findUserCreateTask(id);
         Date date= new Date();
         Comment comment= new Comment();
@@ -86,6 +97,15 @@ public class TaskController {
     }
     @RequestMapping(value = "/task/edit/{id}")
     public String edit(Model model, @PathVariable("id") Integer id,Authentication authentication){
+        if (roleOfTaskService.getRoleOfTaskForUser(authentication.getName(),id).size()>0){
+            RoleOfTask roleOfTask=roleOfTaskService.getRoleOfTaskForUser(authentication.getName(),id).get(0);
+            model.addAttribute(Constants.ROLE_OF_TASK,roleOfTask.getCode());
+        }
+        for (Role role :userService.findByEmail(authentication.getName()).getRoles()){
+            if (role.getName().equals("admin")){
+                model.addAttribute(Constants.ROLE_OF_TASK,"admin");
+            }
+        }
         Task task=taskService.findById(id);
         List<User> users=userService.findDifferentEmail(authentication.getName());
         ModelMapper modelMapper = new ModelMapper();

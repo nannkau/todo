@@ -1,11 +1,13 @@
 package com.sgu.todo.controller;
 
+import com.sgu.todo.entity.Task;
 import com.sgu.todo.entity.User;
 import com.sgu.todo.entity.UserTaskRoleLink;
 import com.sgu.todo.service.RoleOfTaskService;
 import com.sgu.todo.service.TaskService;
 import com.sgu.todo.service.UserService;
 import com.sgu.todo.service.UserTaskRoleLinkService;
+import com.sgu.todo.utils.Constants;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,7 @@ public class ManageAccessController {
     @RequestMapping("/manage-access/index/{id}")
     public String index(Model model, @PathVariable("id") Integer id){
         List<UserTaskRoleLink> userTaskRoleLinks=userTaskRoleLinkService.findByTask(id);
+
         if(userTaskRoleLinkService.findByTask(id)!=null){
             model.addAttribute("userTaskRoleLinks",userTaskRoleLinkService.findByTask(id));
         }
@@ -44,6 +47,8 @@ public class ManageAccessController {
     @RequestMapping(value = "/manage-access/add/{id}")
     public String add(Model model, @PathVariable("id") Integer id){
         UserTaskRoleLink userTaskRoleLink= new UserTaskRoleLink();
+        Task task=taskService.findById(id);
+        userTaskRoleLink.setTask(task);
         List<User> users=userTaskRoleLinkService.findByOtherTask(id);
         model.addAttribute("users",userTaskRoleLinkService.findByOtherTask(id));
         model.addAttribute("roleOfTasks",roleOfTaskService.findAll());
@@ -56,9 +61,9 @@ public class ManageAccessController {
             return "manage_access/add";
         }
         else {
-            userTaskRoleLinkService.save(userTaskRoleLink);
+            UserTaskRoleLink userTaskRoleLink1=userTaskRoleLinkService.save(userTaskRoleLink);
         }
-        return "redirect:/manage-access/index.html";
+        return "redirect:/manage-access/index/"+userTaskRoleLink.getTask().getTaskId().toString();
     }
     @RequestMapping(value = "/manage-access/edit/{id}")
     public String edit(Model model, @PathVariable("id") Integer id){

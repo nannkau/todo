@@ -42,4 +42,9 @@ public class RoleOfTaskServiceImpl implements RoleOfTaskService {
     public List<RoleOfTask> findByFlagDelete(String flag) {
         return roleOfTaskRepository.findByFlgDelete(flag);
     }
+
+    @Override
+    public List<RoleOfTask> getRoleOfTaskForUser(String email, Integer taskId) {
+        return roleOfTaskRepository.getRoleOfTaskForUser(email,taskId);
+    }
 }

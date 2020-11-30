@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
 >
 <head>
     <th:block th:replace="/flagments/header::header">
@@ -8,7 +8,7 @@
 </head>
 <body class="materialdesign">
 <th:block th:replace="/flagments/sidebar::sidebar"></th:block>
-<div th:if="${email !=null}">
+<div th:if="${roleOfTask=='JOINER' || roleOfTask=='CREATOR' || roleOfTask=='admin' }">
     <div class="basic-form-area mg-b-15">
         <div class="container-fluid">
             <div class="row">
@@ -159,8 +159,10 @@
     </div>
 </div>
 <!-- ELSE -->
-<div th:unless="${email !=null}">
-    <h1>You not in task</h1>
+<div th:unless="${roleOfTask=='JOINER' || roleOfTask=='CREATOR'}">
+    <div>
+        <img th:src="@{/img/error.jpg}" style="height: 100%;width: 100%"/>
+    </div>
 </div>
 
 <th:block th:replace="/flagments/footer::footer"></th:block>

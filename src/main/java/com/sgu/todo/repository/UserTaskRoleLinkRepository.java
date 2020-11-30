@@ -14,9 +14,9 @@ import java.util.Optional;
 public interface UserTaskRoleLinkRepository extends JpaRepository<UserTaskRoleLink,Integer> {
     @Query(value = "delete from user_task_role_link where task_id=:taskId and user_id=:userId",nativeQuery = true)
     public void deleteByUserId(@Param("taskId") Integer taskId,@Param("userId") Integer userId);
-    @Query("select utr from UserTaskRoleLink utr join utr.task t join utr.user u where t.taskId =:id")
+    @Query("select utr from UserTaskRoleLink utr join utr.task t where t.taskId =:id")
     public List<UserTaskRoleLink> findByTask(@Param("id") Integer id);
-    @Query("select u from UserTaskRoleLink utr join utr.task t join utr.user u where t.taskId <>:id")
+    @Query("select u from User u where u.id not in (select u.id from UserTaskRoleLink utr join utr.task t join utr.user u where t.taskId =:id)")
     public List<User> findUserByOtherTask(@Param("id") Integer id);
     @Query("select u from UserTaskRoleLink utr join utr.user u join utr.task t join utr.roleOfTask r where r.code=:code and t.taskId=:taskId")
     public List<User> findByUserCodeAndTask(@Param("taskId") Integer taskId,@Param("code") String code);

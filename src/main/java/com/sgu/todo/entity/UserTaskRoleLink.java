@@ -9,7 +9,7 @@ public class UserTaskRoleLink implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue
-    private Long id;
+    private Integer id;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -23,11 +23,11 @@ public class UserTaskRoleLink implements Serializable {
     @JoinColumn(name = "role_of_task_id")
     private RoleOfTask roleOfTask;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

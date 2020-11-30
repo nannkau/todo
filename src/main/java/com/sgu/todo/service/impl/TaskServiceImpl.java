@@ -144,20 +144,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void manageAccess(Integer userId,Integer taskId,Integer roleOfTaskId) {
-        User user= userRepository.findById(userId).get();
-        Task task= taskRepository.findById(taskId).get();
-        RoleOfTask roleOfTask= roleOfTaskRepository.findById(roleOfTaskId).get();
-        UserTaskRoleLink userTaskRoleLink= new UserTaskRoleLink();
-        userTaskRoleLink.setRoleOfTask(roleOfTask);
-        userTaskRoleLink.setTask(task);
-        userTaskRoleLink.setUser(user);
-        userTaskRoleLinkRepository.save(userTaskRoleLink);
-    }
-
-    @Override
-    public void removeUserTask(Integer userId, Integer taskId) {
-        userTaskRoleLinkRepository.deleteByUserId(taskId,userId);
+    public List<Task> findMyTaskByCode(String email, String code) {
+        return taskRepository.findMyTaskByCode(email,code);
     }
 
 
