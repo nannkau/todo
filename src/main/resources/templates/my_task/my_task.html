@@ -54,7 +54,7 @@
                                         <td th:text="${#dates.format(task.startDate, 'dd/MM/yyyy HH:mm')}">startDate</td>
                                         <td th:text="${#dates.format(task.finishDate, 'dd/MM/yyyy HH:mm')}">finishDate</td>
                                         <td >
-                                            <p  th:style = "${task.getPrivacy()=='0'} ? 'color: blue' : 'color: red' " th:text="${task.getPrivacy()=='0'? 'Private':'Public'}">
+                                            <p  th:style = "${task.getPrivacy()=='0'} ? 'color: blue' : 'color: green' " th:text="${task.getPrivacy()=='0'? 'Private':'Public'}">
                                                     private
                                             </p>
                                         </td>
@@ -64,7 +64,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p  th:if="${task.finishDate.before(date)}"> <span class="glyphicon glyphicon-warning-sign"></span></p>
+                                            <p  th:if="${task.finishDate.before(date)}"> <span class="glyphicon glyphicon-warning-sign" style="color: red"></span></p>
                                         </td>
                                         <td>
                                             <div class="btn-group project-list-action">

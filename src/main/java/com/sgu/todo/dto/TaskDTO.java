@@ -1,6 +1,7 @@
 package com.sgu.todo.dto;
 
 import com.sgu.todo.entity.User;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -19,7 +20,7 @@ public class TaskDTO {
     private String content;
 
     private Date startDate;
-    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date finishDate;
 
     @NotEmpty(message = "Enter privacy")
