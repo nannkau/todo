@@ -52,4 +52,8 @@ public class HomeController {
         }
         return "redirect:/login";
     }
+//    @RequestMapping(value = "/error")
+//    public String error(){
+//        return "home/error";
+//    }
 }

@@ -2,14 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:replace="/flagments/header::header">
-        <title>Home</title>
+        <title>erro</title>
     </th:block>
 </head>
 <body class="materialdesign">
 <th:block th:replace="/flagments/sidebar::sidebar"></th:block>
-<div>
-    <img th:src="@{/img/todo.png}" class="center thumbnail"/>
-</div>
+<h1>There's no page here!</h1>
+<p>
+    We're sorry, the page you are looking for does not exist!
+    Go back to <a href="/">home page</a>.
+</p>
 <th:block th:replace="/flagments/footer::footer"></th:block>
 </body>
 </html>
