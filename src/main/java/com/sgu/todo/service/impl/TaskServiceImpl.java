@@ -59,6 +59,8 @@ public class TaskServiceImpl implements TaskService {
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
             editHistory.setStatus("0");
+            editHistory.setFlgDelete("0");
+            editHistory.setUser(user);
             List<EditHistory> editHistoryList=new ArrayList<>();
             editHistoryList.add(editHistory);
             task.setEditHistories(editHistoryList);
@@ -88,6 +90,9 @@ public class TaskServiceImpl implements TaskService {
             List<EditHistory> editHistoryList= temp.getEditHistories();
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
+            editHistory.setUser(user);
+            editHistory.setStatus("1");
+            editHistory.setFlgDelete("0");
             editHistoryList.add(editHistory);
             task.setEditHistories(editHistoryList);
             task.setFiles(fileList);
