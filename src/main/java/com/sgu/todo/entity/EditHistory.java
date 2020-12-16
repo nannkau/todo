@@ -14,12 +14,22 @@ public class EditHistory implements Serializable {
     private String flgDelete;
     @Column(name = "status",length = 1)
     private String status;
+    @Column(name = "status_detail",length = 1000)
+    private String statusDetail;
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @OneToOne()
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private User user;
+
+    public String getStatusDetail() {
+        return statusDetail;
+    }
+
+    public void setStatusDetail(String statusDetail) {
+        this.statusDetail = statusDetail;
+    }
 
     public Integer getEditHistoryId() {
         return editHistoryId;

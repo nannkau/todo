@@ -12,6 +12,8 @@ import java.util.List;
 public interface RoleOfTaskRepository  extends JpaRepository<RoleOfTask,Integer> {
     public List<RoleOfTask> findByFlgDelete(String flag);
     public  List<RoleOfTask> findByCode(String code);
+    @Query ("select r from RoleOfTask r where r.code <>'CREATOR'")
+    public List<RoleOfTask> findFalseCreat();
     @Query("select r from  UserTaskRoleLink utr join utr.user u join utr.task t join utr.roleOfTask r where u.email =:email and t.taskId=:taskId")
     public List<RoleOfTask> getRoleOfTaskForUser(@Param("email") String email,@Param("taskId") Integer taskId);
 }

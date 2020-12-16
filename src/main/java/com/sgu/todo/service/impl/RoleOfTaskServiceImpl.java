@@ -18,7 +18,7 @@ public class RoleOfTaskServiceImpl implements RoleOfTaskService {
 
     @Override
     public List<RoleOfTask> findAll() {
-        return roleOfTaskRepository.findAll();
+        return roleOfTaskRepository.findFalseCreat();
     }
 
     @Override

@@ -66,7 +66,7 @@
                                             </p>
                                         </td>
                                         <td>
-                                            <p  th:if="${task.finishDate.before(date)}"> <span class="glyphicon glyphicon-warning-sign" style="color: red"></span></p>
+                                            <p  th:if="${task.finishDate.before(date) && task.status=='0'}"> <span class="glyphicon glyphicon-warning-sign" style="color: red"></span></p>
                                         </td>
                                         <td>
                                             <div class="btn-group project-list-action">

@@ -42,8 +42,10 @@ public class UserTaskRoleLinkServiceImpl implements UserTaskRoleLinkService {
     }
 
     @Override
-    public void deleted(Integer id) {
+    public Integer deleted(Integer id) {
+        UserTaskRoleLink userTaskRoleLink= userTaskRoleLinkRepository.findById(id).get();
         userTaskRoleLinkRepository.deleteById(id);
+       return userTaskRoleLink.getTask().getTaskId();
     }
 
     @Override

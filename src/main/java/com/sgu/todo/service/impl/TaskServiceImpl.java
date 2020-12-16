@@ -4,10 +4,12 @@ import com.sgu.todo.dto.TaskDTO;
 import com.sgu.todo.entity.*;
 import com.sgu.todo.repository.*;
 import com.sgu.todo.service.TaskService;
+import com.sgu.todo.utils.DateUtils;
 import com.sgu.todo.utils.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.support.SimpleTriggerContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task findTaskByIdAndFlgDelete(Integer id) {
+        return taskRepository.findByTaskIdAndFlgDelete(id,"0").get(0);
+    }
+
+    @Override
     public void create(TaskDTO taskDTO, HttpServletRequest request, Authentication authentication) {
         ModelMapper modelMapper = new ModelMapper();
         Task task = modelMapper.map(taskDTO, Task.class);
@@ -56,9 +63,11 @@ public class TaskServiceImpl implements TaskService {
                     e.printStackTrace();
                 }
             }
+            task.setFlgDelete("0");
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
             editHistory.setStatus("0");
+            editHistory.setStatusDetail("Create by"+user.getFullName());
             editHistory.setFlgDelete("0");
             editHistory.setUser(user);
             List<EditHistory> editHistoryList=new ArrayList<>();
@@ -76,6 +85,8 @@ public class TaskServiceImpl implements TaskService {
         }
         else {
             Task temp=taskRepository.findById(task.getTaskId()).get();
+            task.setFlgDelete(temp.getFlgDelete());
+            task.setComments(temp.getComments());
             List<File> fileList=new ArrayList<>();
             if(task.getFiles()!=null){
                 fileList.addAll(temp.getFiles());
@@ -87,16 +98,52 @@ public class TaskServiceImpl implements TaskService {
                     e.printStackTrace();
                 }
             }
+            task.setFiles(fileList);
+            task.setStartDate(temp.getStartDate());
             List<EditHistory> editHistoryList= temp.getEditHistories();
             EditHistory editHistory= new EditHistory();
             editHistory.setCreateDate(new Date());
             editHistory.setUser(user);
             editHistory.setStatus("1");
+            StringBuffer buffer= new StringBuffer();
+            buffer.append("Task change: ");
+            if(!task.getContent().equals(temp.getContent())){
+                buffer.append("\n");
+                buffer.append("Change content ");
+            }
+            if(!task.getTitle().equals(temp.getTitle())){
+                buffer.append("\n");
+                buffer.append("Change title "+temp.getTitle()+" to "+task.getTitle());
+            }
+            if(!task.getPrivacy().equals(temp.getPrivacy())){
+
+                String privacy="";
+                if (task.getPrivacy().equals("1")){
+                    privacy="public";
+                }
+                else {
+                    privacy="private";
+                }
+                buffer.append("\n");
+                buffer.append("Change Privacy to"+privacy);
+            }
+           if (task.getFiles()!=null&&temp.getFiles()!=null){
+               if(temp.getFiles().size()!=task.getFiles().size()){
+                   buffer.append("Change File");
+               }
+           }
+           if ((task.getFiles()!=null&&temp.getFiles()==null)||(task.getFiles()==null&&temp.getFiles()!=null)){
+               buffer.append("\n");
+               buffer.append("Change file");
+           }
+           if (DateUtils.date2String(task.getFinishDate(),"dd/MM/yyyy").equals(DateUtils.date2String(temp.getFinishDate(),"dd/MM/yyyy"))){
+               buffer.append("\n");
+               buffer.append("Change finishDate "+ DateUtils.date2String(temp.getFinishDate(),"dd/MM/yyyy") +" to "+DateUtils.date2String(task.getFinishDate(),"dd/MM/yyyy"));
+           }
+            editHistory.setStatusDetail(buffer.toString());
             editHistory.setFlgDelete("0");
             editHistoryList.add(editHistory);
             task.setEditHistories(editHistoryList);
-            task.setFiles(fileList);
-            task.setStartDate(temp.getStartDate());
             taskRepository.save(task);
 
         }
@@ -104,9 +151,18 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task deleteById(Integer id) {
+    public Task deleteById(Integer id,String email) {
+        User user= userRepository.findByEmail(email);
         Task task=findById(id);
-        task.setFlgDelete("0");
+        List<EditHistory> editHistoryList= task.getEditHistories();
+        EditHistory editHistory= new EditHistory();
+        editHistory.setCreateDate(new Date());
+        editHistory.setUser(user);
+        editHistory.setStatus("1");
+        editHistory.setStatusDetail("Delete by "+user.getFullName());
+        editHistoryList.add(editHistory);
+        task.setFlgDelete("1");
+        task.setEditHistories(editHistoryList);
         return taskRepository.save(task);
     }
 
@@ -144,7 +200,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> findPublicTask(String email) {
-        List<Task> tempTasks= taskRepository.findTaskByPrivacy("1");
+        List<Task> tempTasks= taskRepository.findTaskByPrivacyAndFlgDelete("1","0");
         return tempTasks;
     }
 

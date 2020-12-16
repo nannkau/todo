@@ -45,7 +45,7 @@ public class TaskController {
     }
     @RequestMapping(value = "/task-all/index.html")
     public String index(Model model){
-        model.addAttribute("tasks",taskService.findAll());
+        model.addAttribute("tasks",taskService.findByFlgDelete("0"));
         model.addAttribute("date",new Date());
         return "task/index";
     }
@@ -54,7 +54,7 @@ public class TaskController {
         TaskDTO task= new TaskDTO();
         List<User> users=userService.findDifferentEmail(authentication.getName());
         model.addAttribute("users",users);
-        model.addAttribute("task",task);
+        model.addAttribute("taskDTO",task);
         return "task/add";
     }
     @RequestMapping(value = "/task/add.html",method = RequestMethod.POST)
@@ -76,7 +76,7 @@ public class TaskController {
            RoleOfTask roleOfTask=roleOfTaskService.getRoleOfTaskForUser(authentication.getName(),id).get(0);
            model.addAttribute(Constants.ROLE_OF_TASK,roleOfTask.getCode());
        }
-        Task task=taskService.findById(id);
+        Task task=taskService.findTaskByIdAndFlgDelete(id);
        if (task.getPrivacy().equals("1")){
            model.addAttribute(Constants.ROLE_OF_TASK,"public");
        }
@@ -106,18 +106,18 @@ public class TaskController {
                 model.addAttribute(Constants.ROLE_OF_TASK,"admin");
             }
         }
-        Task task=taskService.findById(id);
+        Task task=taskService.findTaskByIdAndFlgDelete(id);
         List<User> users=userService.findDifferentEmail(authentication.getName());
         ModelMapper modelMapper = new ModelMapper();
         TaskDTO taskDTO = modelMapper.map(task, TaskDTO.class);
         model.addAttribute("users",users);
-        model.addAttribute("task",taskDTO);
+        model.addAttribute("taskDTO",taskDTO);
         return "task/edit";
     }
     @RequestMapping(value = "/task/delete/{id}")
     public String delete(Model model,@PathVariable("id") Integer id,Authentication authentication){
 
-      Task task= taskService.deleteById(id);
+      Task task= taskService.deleteById(id,authentication.getName());
         if (checkRole(authentication.getName())){
             return "redirect:/task-all/index.html";
         }

@@ -35,18 +35,20 @@
                                         <th data-field="name" >Type</th>
                                         <th data-field="createDate" >Create Date</th>
                                         <th data-field="detail" >Name</th>
+                                        <th data-field="detail" >Detail</th>
                                     </tr>
                                     </thead>
                                     <tbody >
                                     <tr th:each=" edit :${editHistories}">
                                         <td></td>
-                                        <td >
-                                            <p  th:style = "${edit.getStatus()=='0'} ? 'color: blue' : 'color: red' " th:text="${edit.getStatus()=='0'? 'create':'edit'}">
-                                                    active
-                                            </p>
+                                        <td th:switch="${edit.status}" >
+                                            <p th:case="'0'">Create</p>
+                                            <p th:case="'1'">Edit</p>
+                                            <p th:case="'2'">Delete</p>
                                         </td>
                                         <td th:text="${#dates.format(edit.createDate, 'dd/MM/yyyy HH:mm')}">date</td>
                                         <td th:text="${edit.user.fullName}">name</td>
+                                        <td th:text="${edit.statusDetail}">Detail</td>
                                     </tr>
                                     </tbody>
                                 </table>

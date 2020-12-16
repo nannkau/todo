@@ -35,7 +35,7 @@
                                     <thead>
                                     <tr>
                                         <th data-field="email" >Email</th>
-                                        <th data-field="password" >PassWord</th>
+                                        <th data-field="password" >Name</th>
                                         <th data-field="role" >Role</th>
                                         <th data-field="status" >Status</th>
                                         <th >Action</th>
@@ -44,7 +44,7 @@
                                     <tbody >
                                     <tr th:each=" user :${users}">
                                         <td th:text="${user.email}">Email</td>
-                                        <td >****</td>
+                                        <td th:text="${user.fullName}"></td>
                                         <td >
                                             <div th:each="role : ${user.roles}"  th:switch="${role.name}">
                                                 <span th:case="'admin'" th:style = "'color: white;background-color:green;' " >admin</span>
@@ -61,7 +61,6 @@
                                         <td>
                                             <div class="btn-group project-list-action">
                                                 <a th:href="@{'/user/edit/'+ ${user.id}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
-                                                <a th:href="@{'/user/delete/'+ ${user.id}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
                                             </div>
                                         </td>
 

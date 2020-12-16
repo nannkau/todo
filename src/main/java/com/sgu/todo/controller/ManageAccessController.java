@@ -76,7 +76,7 @@ public class ManageAccessController {
     @RequestMapping(value = "/manage-access/delete/{id}")
     public String delete(Model model,@PathVariable("id") Integer id){
 
-        userTaskRoleLinkService.deleted(id);
-        return "redirect:/role/index.html";
+      Integer red=  userTaskRoleLinkService.deleted(id);
+        return "redirect:/manage-access/index/"+red.toString();
     }
 }

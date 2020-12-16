@@ -20,7 +20,7 @@ public class TaskDTO {
     private String content;
 
     private Date startDate;
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "MM/dd/yyyy")
     private Date finishDate;
 
     @NotEmpty(message = "Enter privacy")

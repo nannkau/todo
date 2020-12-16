@@ -47,7 +47,7 @@
                                             <td th:text="${obj.getUser().getFullName()}">name</td>
                                             <td th:text="${obj.getRoleOfTask().getName()}">Role</td>
                                             <td>
-                                                <div class="btn-group project-list-action">
+                                                <div th:if="${obj.getRoleOfTask().getCode()!='CREATOR'}" class="btn-group project-list-action">
                                                     <a th:href="@{'/manage-access/edit/' + ${obj.getId()}}"> <button class="btn btn-white btn-xs"><i class="fa fa-pencil"></i> Edit</button></a>
                                                     <a th:href="@{'/manage-access/delete/' + ${obj.getId()}}"><button class="btn btn-white btn-action btn-xs"><i class="fa fa-trash-o" aria-hidden="true"> </i>Delete</button></a>
                                                 </div>
